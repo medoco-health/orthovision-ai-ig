@@ -50,6 +50,8 @@ orthovision-fhir-ig/
    ```bash
    make install
    ```
+   Hit `Y` to accept the publisher jar placement in `src/input-cache`
+   Hit anything other than `Y` to not install new scripts (unless you know what you are doing)
 
 3. **Build the Implementation Guide:**
    ```bash
