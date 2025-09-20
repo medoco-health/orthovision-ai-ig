@@ -23,4 +23,4 @@ install:
 update-publisher: install
 
 serve:
-	cd docs && python -m http.server 8000
+	cd src/output/ && python -m http.server 8000
