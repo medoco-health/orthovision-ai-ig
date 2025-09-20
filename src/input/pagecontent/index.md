@@ -2,9 +2,22 @@
 
 The Orthovision FHIR Implementation Guide defines a standardized API for AI-powered orthodontic image classification services. This guide provides FHIR R5 profiles, operations, and workflows for automated analysis of orthodontic photographs and radiographic images.
 
+## Relationship to IHE AI Workflow Profile
+
+The [IHE AI Workflow for Imaging (AIW-I) profile](https://profiles.ihe.net/RAD/AIW-I/) describes a comprehensive workflow for AI-powered medical imaging analysis that is well-designed and reasonable for many use cases. However, the AIW-I workflow assumes that images have already been archived in an image manager (such as a PACS) and focuses on creating AI reports after the fact.
+
+In our specific orthodontic use case, it is more valuable to perform AI classification during the **acquisition phase** - when images are being captured but before they are archived. This enables:
+
+- **Real-time workflow optimization**: Immediate feedback to clinicians about image quality and protocol compliance
+- **Acquisition guidance**: Live assistance during photo capture sessions
+- **Quality control**: Early detection of missing or suboptimal images before the patient leaves
+- **Workflow efficiency**: Reduced need for retakes and follow-up appointments
+
+This Implementation Guide therefore defines a complementary approach that operates **before** the traditional IHE AI Workflow, focusing on the critical acquisition and pre-archival phase.
+
 ## Purpose
 
-This Implementation Guide enables healthcare systems to integrate AI-powered orthodontic image classification into their workflows using standard FHIR resources. The Orthovision AI service automatically classifies orthodontic images by:
+This Implementation Guide enables healthcare systems to integrate AI-powered orthodontic image classification into their **acquisition workflows** using standard FHIR resources. The Orthovision AI service automatically classifies orthodontic images by:
 
 - **Imaging Modality**: Determining the type of imaging equipment used (external photography, digital radiography, CT, etc.)
 - **Imaging Protocol**: Identifying the specific view or positioning (frontal facial, profile, intraoral views, etc.)
