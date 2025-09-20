@@ -1,27 +1,35 @@
-# Orthovision FHIR Implementation Guide
+# Introduction
 
-This FHIR Implementation Guide (IG) defines profiles and implementation guidance for the Orthovision API in order to allow orthodontic photograph categorization.
+The Orthovision FHIR Implementation Guide defines a standardized API for AI-powered orthodontic image classification services. This guide provides FHIR R5 profiles, operations, and workflows for automated analysis of orthodontic photographs and radiographic images.
 
-## Overview
+## Purpose
 
-The Orthovision IG provides:
+This Implementation Guide enables healthcare systems to integrate AI-powered orthodontic image classification into their workflows using standard FHIR resources. The Orthovision AI service automatically classifies orthodontic images by:
 
-- FHIR profiles for medical imaging workflows
-- Implementation guidance for orthodontic imaging
+- **Imaging Modality**: Determining the type of imaging equipment used (external photography, digital radiography, CT, etc.)
+- **Imaging Protocol**: Identifying the specific view or positioning (frontal facial, profile, intraoral views, etc.)
 
-## Contents
+## Key Features
 
-This guide contains the following resources:
+- **Asynchronous Processing**: Non-blocking API design using FHIR Task resources for progress tracking
+- **Real-time Updates**: Optional Server-Sent Events streaming for live progress monitoring  
+- **Privacy-Focused**: No patient data required - operates on image content alone
+- **Transparent AI**: Optional confidence scores and full prediction rankings for model interpretability
+- **Standard FHIR**: Pure FHIR R5 implementation ensuring interoperability
+- **Error Handling**: Comprehensive error codes for robust client implementation
 
-- **Profiles**: Extensions and constraints on FHIR resources for imaging workflows
-- **Examples**: Sample instances showing proper usage
+# Getting Started
 
-## Getting Started
+1. **Review Profiles**: Examine the resource constraints and requirements
+2. **Test with Examples**: Use provided sample instances for integration testing
+3. **Implement Async Pattern**: Build Task polling or SSE streaming for progress updates
+4. **Handle Errors**: Implement proper error handling using OperationOutcome responses
+5. **Optimize Performance**: Use ImagingStudy context when modality is known
 
-To implement this guide:
+# Support and Contact
 
-1. Review the profiles and their requirements
-2. Examine the provided examples
-3. Follow the implementation patterns described
+For technical questions about this Implementation Guide or the Orthovision AI service:
 
-For questions or feedback, please contact medocoHEALTH.
+- **GitHub Issues**: Report bugs and request features
+- **Community Discussions**: Ask questions and share experiences  
+- **Technical Support**: Contact medocoHEALTH for implementation assistance
