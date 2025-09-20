@@ -113,10 +113,6 @@ We welcome contributions to improve the Orthovision FHIR Implementation Guide. P
 - Add examples for new profiles or significant changes
 - Follow FHIR best practices for profiling and terminology
 
-## License
-
-This Implementation Guide is released under the TODO: license.
-
 ## Support
 
 For questions about the Orthovision AI service or this Implementation Guide:
