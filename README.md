@@ -1,3 +1,5 @@
+[![CC BY 4.0][cc-by-shield]][cc-by]
+
 # Orthovision AI Implementation Guide
 
 A FHIR R5 Implementation Guide for orthodontic image classification using AI. This IG defines the API specification for the Orthovision AI service, which classifies orthodontic photographs and radiographic images into standardized imaging modalities and protocols.
