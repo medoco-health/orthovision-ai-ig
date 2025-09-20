@@ -4,6 +4,7 @@ Id: orthovision-ai-task
 Title: "Orthovision AI Task"
 Description: "This profile represents a task for the Orthovision AI service to classify orthodontic imaging data and produce a diagnostic report."
 * ^url = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-task"
+* ^experimental = true
 * status MS
 * intent = #order
 * code.coding.system = "http://medoco.health/fhir/CodeSystem/orthovision-ai-task-types"

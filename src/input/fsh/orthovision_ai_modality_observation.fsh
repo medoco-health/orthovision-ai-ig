@@ -4,6 +4,7 @@ Id: orthovision-ai-modality-observation
 Title: "Observation: Modality Classification"
 Description: "This profile represents an observation capturing the modality classification of orthodontic imaging data as determined by the Orthovision AI service."
 * ^url = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-modality-observation"
+* ^experimental = true
 * status = #final
 * category = http://terminology.hl7.org/CodeSystem/observation-category#imaging
 * code.coding.system = "http://medoco.health/fhir/CodeSystem/orthovision-ai-observation-types"
