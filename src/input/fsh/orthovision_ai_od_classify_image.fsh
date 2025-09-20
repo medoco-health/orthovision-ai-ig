@@ -3,7 +3,7 @@ InstanceOf: OperationDefinition
 Usage: #definition
 Title: "Classify Orthodontic Image Operation"
 Description: "Operation to submit orthodontic images for AI-powered classification"
-* url = "http://medoco.health/fhir/OperationDefinition/classify-orthodontic-image"
+* url = "http://medoco.health/fhir/OperationDefinition/ClassifyOrthodonticImage"
 * name = "ClassifyOrthodonticImage"
 * title = "Classify Orthodontic Image"
 * status = #active

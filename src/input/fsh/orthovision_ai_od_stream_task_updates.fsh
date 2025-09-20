@@ -3,7 +3,7 @@ InstanceOf: OperationDefinition
 Usage: #definition
 Title: "Stream Task Updates Operation"
 Description: "Provides real-time Server-Sent Events stream for Task status updates"
-* url = "http://medoco.health/fhir/OperationDefinition/stream-task-updates"
+* url = "http://medoco.health/fhir/OperationDefinition/StreamTaskUpdates"
 * name = "StreamTaskUpdates"
 * title = "Stream Task Updates"
 * status = #active

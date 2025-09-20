@@ -3,7 +3,7 @@ InstanceOf: SearchParameter
 Usage: #definition
 Title: "Task Focus Search Parameter"
 Description: "Search parameter for finding Tasks by their focus reference"
-* url = "http://medoco.health/fhir/SearchParameter/task-focus"
+* url = "http://medoco.health/fhir/SearchParameter/TaskFocusSearchParameter"
 * name = "TaskFocusSearchParameter"
 * status = #active
 * experimental = false
@@ -14,4 +14,5 @@ Description: "Search parameter for finding Tasks by their focus reference"
 * base = #Task
 * type = #reference
 * expression = "Task.focus"
+* processingMode = #normal
 * target = #Bundle
