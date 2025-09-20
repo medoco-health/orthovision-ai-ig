@@ -5,7 +5,6 @@ Title: "Orthovision AI Bundle"
 Description: "A FHIR Bundle that packages a patient's dental/orthodontic image (OrthovisionAIBinary) together with its associated imaging metadata (ImagingStudy)."
 
 * ^url = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-bundle"
-* ^version = "0.1.0"
 
 // This bundle is a collection type
 * type = #collection

@@ -7,7 +7,6 @@ Id: orthovision-ai-classification-scores
 Title: "Orthovision AI - Classification Scores"
 Description: "Extension to capture the complete ranked list of AI model predictions with confidence scores for transparency and debugging purposes."
 * ^url = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-classification-scores"
-* ^version = "0.1.0"
 * ^context.type = #element
 * ^context.expression = "Observation"
 
