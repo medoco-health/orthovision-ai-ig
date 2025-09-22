@@ -22,10 +22,11 @@ This Implementation Guide works *before* the traditional IHE workflow. Once imag
 
 ## Use Cases
 
-Our use cases are different—we want AI classification right when images are taken (or soon after), before they're archived:
+This Implementation Guide shines in scenarios where images are captured or stored outside traditional medical imaging systems, enabling seamless integration into enterprise imaging workflows. By standardizing AI classification, it bridges the gap between everyday image formats and professional DICOM standards, promoting better data sharing and interoperability across healthcare.
 
-- User wants to use a "dumb" (non-DICOM) camera to store images into a DICOM storage or node. The user can make use of a system that will use this API on the fly to converse with another system and obtain the missing information automatically
-- User wants to convert and store into a DICOM storage an archive of already acquired images (e.g. orthodontic photographs, legacy collection of radiographs, etc), stored in generic formats. The user can make use of a system that will go through all the images and use this API to converse with another system to obtain information automatically;
+- **Live Image Capture**: Imagine using a standard digital camera (not specialized medical equipment) to take photos during a patient visit. This guide enables connected software—such as an imaging app or workstation—to automatically classify the images in real-time enabling it to convert the images to DICOM format for storage in a hospital's imaging system. No manual data entry needed—just plug-and-play integration facilitating the human confirmation step that ensures images are properly labeled and ready for clinical use or research.
+  
+- **Legacy Archive Conversion**: Healthcare facilities and research institutions often have large collections of old images, originating from film, which has been tediously saved in basic formats like JPEG or TIFF. This guide enables batch processing: a system scans the archive, sends them to an AI service to classifies each image, and adds the necessary DICOM details automatically. This transforms disorganized files into standardized, searchable medical records that can be shared across systems, improving research access and clinical workflows.
 
 ## Purpose
 
