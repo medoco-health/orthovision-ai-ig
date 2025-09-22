@@ -43,6 +43,6 @@ This Implementation Guide enables healthcare systems to integrate AI-powered ort
 
 For technical questions about this Implementation Guide or the Orthovision AI service:
 
-- **GitHub Issues**: Report bugs and request features
+- **GitHub Issues**: Report bugs and request features on [Github](https://github.com/medoco-health/orthovision-ai-ig/issues)
 - **Community Discussions**: Ask questions and share experiences  
-- **Technical Support**: Contact medocoHEALTH for implementation assistance
+- **Technical Support**: Contact [medoco HEALTH](https://medoco.health) for implementation assistance
