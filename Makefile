@@ -18,9 +18,10 @@ clean:
 	rm -rf src/fsh-generated/*
 
 install:
+	gem install jekyll bundler
 	cd src && ./_updatePublisher.sh
 
 update-publisher: install
 
 serve:
-	cd src/output/ && python -m http.server 8000
+	cd src/output/ && python3 -m http.server 8000
