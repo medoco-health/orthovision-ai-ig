@@ -99,10 +99,9 @@ orthovision-fhir-ig/
 
 1. Edit FSH files in `src/input/fsh/`
 2. Update documentation in `src/input/pagecontent/`
-3. Run `make build` to generate the IG
+3. Run `make build` to generate the IG locally
 4. Test locally with `make serve`
-5. Commit and push changes
-
+5. Commit and push changes (on a feature branch)
 
 ## Contributing
 
