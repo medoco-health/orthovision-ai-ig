@@ -88,6 +88,7 @@ orthovision-fhir-ig/
 - `make clean` - Remove generated files
 - `make install` - Install/update IG Publisher and dependencies
 - `make update-publisher` - Update the IG Publisher to the latest version
+   - Beware: remove the gencontinuous script since its deprecated (https://github.com/HL7/fhir-ig-publisher/issues/946)
 - `make serve` - Serve the built IG locally on port 8000
 - `make publish` - Build and copy output to docs/ for GitHub Pages
 
@@ -96,7 +97,7 @@ orthovision-fhir-ig/
 1. Edit FSH files in `src/input/fsh/`
 2. Update documentation in `src/input/pagecontent/`
 3. Run `make build` to generate the IG locally
-4. Test locally with `make serve`
+4. Test locally with `make serve` if you prefer having a webserver for the HTML output otherwise you can just open the generated HTML files directly from `src/output`
 5. Commit and push changes (on a feature branch)
 
 ## Contributing
