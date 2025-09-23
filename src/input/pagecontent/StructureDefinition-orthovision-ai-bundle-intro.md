@@ -1,6 +1,6 @@
 ### Scope and Usage
 
-The OrthovisionAIBundle profile provides a standardized way to package orthodontic imaging data for AI classification services. This profile supports two primary usage patterns:
+The OrthovisionAIBundle profile provides a standardized way to package imaging data for AI classification services. This profile supports two primary usage patterns:
 
 **Simple Classification**: Contains only an OrthovisionAIBinary resource with the image to be classified. This approach is suitable for basic workflows where only image content analysis is required.
 

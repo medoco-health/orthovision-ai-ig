@@ -1,13 +1,11 @@
-## Diagram
-
 The following diagram shows the complete classification workflow:
 ```mermaid
 sequenceDiagram
     participant Client
     participant API as Orthovision API
     participant AI as AI Service
-    
-    Client->>API: POST /$classify (Bundle)
+
+    Client->>API: POST /$classify-orthodontic (Bundle)
     API->>Client: 202 + Task (in-progress)
     
     Note over API,AI: Async Processing
@@ -27,7 +25,7 @@ sequenceDiagram
 
 ### Image Submission
 
-**Endpoint**: `POST [base]/$classify`
+**Endpoint**: `POST [base]/$classify-orthodontic`
 
 **Input**: `OrthovisionAIBundle` containing:
 - **Required**: `OrthovisionAIBinary`
@@ -62,7 +60,7 @@ sequenceDiagram
   "code": {
     "coding": [{
       "system": "http://medoco.health/fhir/CodeSystem/orthovision-ai-task-types",
-      "code": "classify"
+      "code": "classify-orthodontic"
     }]
   },
   "focus": {

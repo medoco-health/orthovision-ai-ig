@@ -2,7 +2,7 @@ Profile: OrthovisionAIDiagnosticReport
 Parent: DiagnosticReport
 Id: orthovision-ai-diagnostic-report  
 Title: "DiagnosticReport: Classification Results"
-Description: "Profile defining an AI-generated diagnostic report for orthodontic analysis. This profile extends the base FHIR DiagnosticReport resource to accommodate specialized needs for AI-powered orthodontic imaging analysis, specifically image type categorization and modality detection."
+Description: "Profile defining an AI-generated diagnostic report for DICOM classification. This profile extends the base FHIR DiagnosticReport resource to accommodate specialized needs for AI-powered medical imaging categorization."
 * ^url = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-diagnostic-report"
 * status = #partial
 * code.coding.system = "http://medoco.health/fhir/CodeSystem/procedures" // preferred binding is LOINC Diagnostic Report Codes, but no suitable code exists there

@@ -10,9 +10,9 @@ The Orthovision FHIR Implementation Guide creates a standard way for AI-powered 
 
 By standardizing this process, we make healthcare imaging more connected and efficient. Hospitals and clinics can easily integrate AI tools, share data securely, and improve patient care without reinventing the wheel each time.
 
-**Important Note on Scope**: This Implementation Guide focuses solely on AI for classifying images to enable DICOM conversion—it does not cover clinical diagnosis or treatment recommendations. For AI used in medical diagnosis (e.g., detecting diseases or conditions), refer to the IHE AI Workflow for Imaging (AIW-I) profile, which handles post-archival AI analysis.
+**Important Note on Scope**: This Implementation Guide focuses solely on AI for classifying images to enable DICOM conversion — it does not cover clinical diagnosis or treatment recommendations. For AI used in medical diagnosis (e.g., detecting diseases or conditions), refer to the IHE AI Workflow for Imaging (AIW-I) profile, which handles post-archival AI analysis.
 
-## Relationship to IHE AI Workflow Profile
+### Relationship to IHE AI Workflow Profile
 
 The [IHE AI Workflow for Imaging (AIW-I) profile](https://profiles.ihe.net/RAD/AIW-I/) is a well-designed standard for AI analysis of medical images that are already stored in systems like PACS (Picture Archiving and Communication Systems). It works great for creating AI reports on existing images.
 
@@ -20,22 +20,27 @@ But there's another important need: standardizing AI for images *before* they're
 
 This Implementation Guide works *before* the traditional IHE workflow. Once images are converted to DICOM using this guide, they can then use AIW-I for further analysis.
 
-## Use Cases
+### Use Cases
 
 This Implementation Guide shines in scenarios where images are captured or stored outside traditional medical imaging systems, enabling seamless integration into enterprise imaging workflows. By standardizing AI classification, it bridges the gap between everyday image formats and professional DICOM standards, promoting better data sharing and interoperability across healthcare.
 
-- **Live Image Capture**: Imagine using a standard digital camera (not specialized medical equipment) to take photos during a patient visit. This guide enables connected software—such as an imaging app or workstation—to automatically classify the images in real-time enabling it to convert the images to DICOM format for storage in a hospital's imaging system. No manual data entry needed—just plug-and-play integration facilitating the human confirmation step that ensures images are properly labeled and ready for clinical use or research.
+- **Live Image Capture**: Imagine using a standard digital camera (not specialized medical equipment) to take photos during a patient visit. This guide enables connected software — such as an imaging app or workstation — to automatically classify the images in real-time enabling it to convert the images to DICOM format for storage in a hospital's imaging system. No manual data entry needed — just plug-and-play integration facilitating the human confirmation step that ensures images are properly labeled and ready for clinical use or research.
   
 - **Legacy Archive Conversion**: Healthcare facilities and research institutions often have large collections of old images, originating from film, which has been tediously saved in basic formats like JPEG or TIFF. This guide enables batch processing: a system scans the archive, sends them to an AI service to classifies each image, and adds the necessary DICOM details automatically. This transforms disorganized files into standardized, searchable medical records that can be shared across systems, improving research access and clinical workflows.
 
-## Purpose
+### Purpose
 
-This guide helps healthcare systems add AI image classification to their image-taking processes using standard FHIR resources. The Orthovision AI service automatically sorts orthodontic images by:
+This guide helps healthcare systems add AI image classification to their image-taking processes using standard FHIR resources. The Orthovision AI service automatically sorts medical images by:
 
 - **Imaging Modality**: What type of equipment took the image (camera, X-ray machine, CT scanner, etc.)
 - **Imaging Protocol**: The specific view or position (front face, side profile, inside mouth, etc.)
+- **PA and Lateral cephalograms**: Standard orthodontic X-rays showing front-to-back (PA) and side (Lateral) views of the skull for diagnosis and treatment planning.
+- **Image Orientation and Positioning**: Detecting rotation, flips, and anatomical alignment.
+- **Anatomical Region Identification**: Recognizing which body parts or structures are visible in the image. This makes it suitable for various medical imaging applications beyond orthodontics, including radiographs from different medical specialties where proper image orientation and anatomy identification are crucial for clinical workflows.
 
-## Key Features
+It can also provide confidence scores for each classification, helping users understand how certain the AI is about its decisions.
+
+### Key Features
 
 - **Asynchronous Processing**: Non-blocking design using FHIR Task resources to track progress
 - **Real-time Updates**: Optional live updates via Server-Sent Events for monitoring

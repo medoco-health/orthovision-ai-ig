@@ -13,7 +13,7 @@ Description: "Describes the capabilities of the Orthovision AI classification se
 * contact.name = "medocoHEALTH Support"
 * contact.telecom.system = #url
 * contact.telecom.value = "https://medoco.health"
-* description = "This capability statement describes the requirements for FHIR R5 operations that implementations of the Orthovision AI service must support for orthodontic image classification."
+* description = "This capability statement describes the requirements for FHIR R5 operations that implementations of the Orthovision AI service must support for medical image classification."
 * kind = #capability
 * fhirVersion = #5.0.0
 * format[0] = #json
@@ -23,7 +23,7 @@ Description: "Describes the capabilities of the Orthovision AI classification se
 
 // REST configuration
 * rest.mode = #server
-* rest.documentation = "The Orthovision AI service provides asynchronous orthodontic image classification using FHIR R5 resources and operations."
+* rest.documentation = "The Orthovision AI service provides asynchronous medical image classification using FHIR R5 resources and operations."
 
 // Task resource support
 * rest.resource[0].type = #Task
@@ -72,11 +72,11 @@ Description: "Describes the capabilities of the Orthovision AI classification se
 // Binary resource support (read-only for retrieving image data)
 * rest.resource[4].type = #Binary
 * rest.resource[4].profile = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-binary"
-* rest.resource[4].documentation = "Binary resources containing orthodontic image data"
+* rest.resource[4].documentation = "Binary resources containing image data"
 * rest.resource[4].interaction[0].code = #read
 * rest.resource[4].interaction[0].documentation = "Read Binary by ID to retrieve image content"
 
 // System-level operations
-* rest.operation[0].name = "classify"
+* rest.operation[0].name = "classify-orthodontic"
 * rest.operation[0].definition = "http://medoco.health/fhir/OperationDefinition/ClassifyOrthodonticImage"
 * rest.operation[0].documentation = "Submit orthodontic images for AI classification"

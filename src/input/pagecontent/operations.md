@@ -1,16 +1,16 @@
 The Orthovision AI service uses an asynchronous workflow:
 
-1. Submit images via `$classify` operation
+1. Submit images via `$classify-orthodontic` operation
 2. Monitor progress via Task polling or `$stream` operation  
 3. Retrieve results from DiagnosticReport when complete
 
-### $classify Operation
+### $classify-orthodontic Operation
 
 The primary operation for submitting orthodontic images for AI classification.
 
 #### Usage
 ```
-POST [base]/$classify
+POST [base]/$classify-orthodontic
 ```
 
 #### Parameters

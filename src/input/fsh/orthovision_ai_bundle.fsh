@@ -2,7 +2,7 @@ Profile: OrthovisionAIBundle
 Parent: Bundle
 Id: orthovision-ai-bundle
 Title: "Orthovision AI Bundle"
-Description: "A FHIR Bundle that packages a patient's dental/orthodontic image (OrthovisionAIBinary) together with its associated imaging metadata (ImagingStudy)."
+Description: "A FHIR Bundle that packages a patient's image (OrthovisionAIBinary) together with its associated imaging metadata (ImagingStudy)."
 
 * ^url = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-bundle"
 

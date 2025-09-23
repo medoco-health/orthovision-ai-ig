@@ -27,7 +27,7 @@ Description: "Operation to submit orthodontic images for AI-powered classificati
 * parameter[0].max = "1"
 * parameter[0].type = #Bundle
 * parameter[0].targetProfile = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-bundle"
-* parameter[0].documentation = "Bundle containing the orthodontic image (OrthovisionAIBinary) and optional ImagingStudy context for AI classification"
+* parameter[0].documentation = "Bundle containing the orthodontic image (as OrthovisionAIBinary) and optional ImagingStudy context for AI classification"
 
 // Input parameter: Optional classification scores
 * parameter[1].name = #includeClassificationScores

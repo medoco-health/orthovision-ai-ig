@@ -30,7 +30,7 @@ Id: orthovision-ai-modality-observation-with-scores
 Title: "Observation: Modality Classification with Classification Scores"
 Description: "Enhanced modality observation that can optionally include all AI model classification scores"
 * ^url = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-modality-observation-with-scores"
-* ^experimental = true
+* ^experimental = false
 * extension contains OrthovisionAIClassificationScores named classificationScores 0..1 MS
 * extension[classificationScores] ^short = "All AI model classification scores for modality detection"
 * extension[classificationScores] ^definition = "Complete ranked list of modality classifications with confidence scores from the AI model"
@@ -42,7 +42,7 @@ Id: orthovision-ai-protocol-observation-with-scores
 Title: "Observation: Protocol Classification with Classification Scores"
 Description: "Enhanced protocol observation that can optionally include all AI model classification scores"
 * ^url = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-protocol-observation-with-scores"
-* ^experimental = true
+* ^experimental = false
 * extension contains OrthovisionAIClassificationScores named classificationScores 0..1 MS
 * extension[classificationScores] ^short = "All AI model classification scores for protocol detection"
 * extension[classificationScores] ^definition = "Complete ranked list of protocol classifications with confidence scores from the AI model"
