@@ -19,9 +19,10 @@ clean:
 
 install:
 	gem install jekyll bundler
-	cd src && ./_updatePublisher.sh
+	cd src && echo -e "Y\nn\n" | ./_updatePublisher.sh
 
-update-publisher: install
+update-publisher:
+	cd src && ./_updatePublisher.sh
 
 serve:
 	cd src/output/ && python3 -m http.server 8000
