@@ -25,10 +25,6 @@ This Implementation Guide standardizes how AI image classification services inte
 
 **Scope**: This IG focuses on AI for image classification to enable DICOM conversion—not clinical diagnosis. For diagnostic AI, refer to the [IHE AI Workflow for Imaging (AIW-I) profile](https://profiles.ihe.net/RAD/AIW-I/).
 
-## Overview
-
-The Orthovision AI service provides automated classification of orthodontic images, determining both the imaging modality (e.g., external photography, digital radiography) and the specific imaging protocol (e.g., frontal facial view, lateral cephalometric). This Implementation Guide defines the FHIR-compliant API for interacting with the service.
-
 ### Key Features
 
 - **Async processing** with real-time updates via Server-Sent Events
