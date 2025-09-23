@@ -88,7 +88,7 @@ orthovision-fhir-ig/
 - `make clean` - Remove generated files
 - `make install` - Install/update IG Publisher and dependencies
 - `make update-publisher` - Update the IG Publisher to the latest version
-   - Beware: remove the gencontinuous script since its deprecated (https://github.com/HL7/fhir-ig-publisher/issues/946)
+   - Beware: remove the gencontinuous script since its deprecated [Issue ref](https://github.com/HL7/fhir-ig-publisher/issues/946)
 - `make serve` - Serve the built IG locally on port 8000
 - `make publish` - Build and copy output to docs/ for GitHub Pages
 
