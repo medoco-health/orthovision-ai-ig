@@ -5,12 +5,44 @@ Title: "Orthovision AI Task"
 Description: "This profile represents a task for the Orthovision AI service to infer proper DICOM tags."
 * ^url = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-task"
 * ^experimental = false
+
 * status MS
+
 * intent = #order
-* code.coding.system = "http://medoco.health/fhir/CodeSystem/orthovision-ai-task-types"
-* code.coding.code = #classify
+
+* doNotPerform = false
+
+* code.coding.system = "http://hl7.org/fhir/CodeSystem/task-code"
+* code.coding.code = #fulfill
+
+* requestedPerformer 0..1 MS
+* requestedPerformer only CodeableReference(OrthovisionAIModel)
+
+* extension contains PerformerDevice named performerDevice 0..1 MS
+* extension[performerDevice].valueReference only Reference(OrthovisionAIModel)
+
 * focus 1..1 MS
-* focus only Reference(OrthovisionAIBundle)
-* output.type.coding.system = "http://medoco.health/fhir/CodeSystem/orthovision-ai-task-outputs"
-* output.type.coding.code = #classification-result
+* focus only Reference(OrthovisionAIBinary)
+
+* input 1..* MS
+* input ^slicing.discriminator.type = #type
+* input ^slicing.discriminator.path = "value"
+* input ^slicing.rules = #open
+* input contains imagingStudy 0..1 MS and tagDICOM 1..* MS
+* input[imagingStudy].value[x] only Reference(ImagingStudy)
+* input[tagDICOM].value[x] only string
+
+* output 1..1 MS
 * output.value[x] only Reference(OrthovisionAIDiagnosticReport)
+
+
+Extension: PerformerDevice
+Id: performer-device
+Title: "Performer Device Extension"
+Description: "Extension to reference a Device that performed the task"
+* ^url = "http://medoco.health/fhir/StructureDefinition/performer-device"
+* ^version = "1.0.0"
+* ^status = #active
+* ^context.type = #element
+* ^context.expression = "Task"
+* value[x] only Reference(Device)

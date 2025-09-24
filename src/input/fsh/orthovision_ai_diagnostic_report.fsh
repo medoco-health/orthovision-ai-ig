@@ -9,13 +9,11 @@ Description: "Profile defining an AI-generated diagnostic report for DICOM class
 * code.coding.code = #orthodontic-classification
 * subject 0..1 MS
 * subject only Reference(Patient)
-* result 2..2 MS
+* result 1..* MS
 * result ^slicing.discriminator.type = #profile
 * result ^slicing.discriminator.path = "resolve()"
 * result ^slicing.rules = #closed
 * result contains
-    modalityResult 1..1 MS and
-    protocolResult 1..1 MS
-* result[modalityResult] only Reference(OrthovisionAIModalityObservation)
-* result[protocolResult] only Reference(OrthovisionAIProtocolObservation)
+    aiObservation 1..* MS
+* result[aiObservation] only Reference(OrthovisionAIObservation)
 * conclusion 0..1 MS
