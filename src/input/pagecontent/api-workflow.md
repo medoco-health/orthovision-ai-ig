@@ -1,121 +1,187 @@
-The following diagram shows the complete classification workflow:
+The following diagram shows the complete classification workflow using standard FHIR RESTful interactions:
 ```mermaid
 sequenceDiagram
     participant Client
     participant API as Orthovision API
     participant AI as AI Service
 
-    Client->>API: POST /$classify-orthodontic (Bundle)
-    API->>Client: 202 + Task (in-progress)
+    Client->>API: POST /Binary (image data)
+    API->>Client: 201 Created + Binary resource
+    
+    Client->>API: POST /Task (OrthovisionAITask)
+    API->>Client: 201 Created + Task (in-progress)
     
     Note over API,AI: Async Processing
-    API->>AI: Process image
-    AI->>AI: Modality detection
-    AI->>AI: Protocol classification
-    AI->>API: Results
+    API->>AI: Process image from Binary
+    AI->>AI: DICOM tag classification
+    AI->>API: Create Observation results
+    API->>API: Update Task status to completed
     
     Client->>API: GET /Task/{id} (polling)
-    API->>Client: Task (completed) + DiagnosticReport ref
+    API->>Client: Task (completed) + Observation refs in output
     
-    Client->>API: GET /DiagnosticReport/{id}
-    API->>Client: Results + Observations
+    Client->>API: GET /Observation/{id}
+    API->>Client: DICOM tag classification results
 ```
 
-## Endpoints
+## RESTful Workflow
 
-### Image Submission
+### Step 1: Image Upload
 
-**Endpoint**: `POST [base]/$classify-orthodontic`
+**Endpoint**: `POST [base]/Binary`
 
-**Input**: `OrthovisionAIBundle` containing:
-- **Required**: `OrthovisionAIBinary`
-- **Optional**: `ImagingStudy` (provides context to optimize processing)
+**Input**: `OrthovisionAIBinary` resource with image data
 
 ```json
 {
-  "resourceType": "Bundle",
-  "type": "collection",
-  "entry": [
-    {
-      "resource": {
-        "resourceType": "Binary",
-        "contentType": "image/jpeg",
-        "data": "base64EncodedImageData..."
-      }
-    }
-  ]
+  "resourceType": "Binary",
+  "contentType": "image/jpeg",
+  "data": "base64EncodedImageData..."
 }
 ```
 
-### Immediate Response
+**Response**: `HTTP 201 Created` with Binary resource and assigned ID
 
-**Response**: `HTTP 202 Accepted` with `OrthovisionAITask`
+### Step 2: Task Creation
+
+**Endpoint**: `POST [base]/Task`
+
+**Input**: `OrthovisionAITask` resource specifying the classification request
 
 ```json
 {
   "resourceType": "Task",
-  "id": "task-12345",
-  "status": "in-progress",
+  "status": "requested",
   "intent": "order",
   "code": {
     "coding": [{
-      "system": "http://medoco.health/fhir/CodeSystem/orthovision-ai-task-types",
-      "code": "classify-orthodontic"
+      "system": "http://hl7.org/fhir/CodeSystem/task-code",
+      "code": "fulfill"
     }]
   },
   "focus": {
-    "reference": "Bundle/input-bundle-12345"
+    "reference": "Binary/binary-12345"
   },
-  "authoredOn": "2025-09-18T14:30:00Z",
-  "businessStatus": {
-    "text": "Image received, queued for processing"
-  }
+  "input": [
+    {
+      "type": {
+        "coding": [{
+          "system": "http://hl7.org/fhir/task-input-type",
+          "code": "imagingStudy"
+        }]
+      },
+      "valueReference": {
+        "reference": "ImagingStudy/study-12345"
+      }
+    },
+    {
+      "type": {
+        "coding": [{
+          "system": "http://hl7.org/fhir/task-input-type",
+          "code": "tagDICOM"
+        }]
+      },
+      "valueString": "modality"
+    },
+    {
+      "type": {
+        "coding": [{
+          "system": "http://hl7.org/fhir/task-input-type", 
+          "code": "tagDICOM"
+        }]
+      },
+      "valueString": "protocol"
+    }
+  ],
+  "authoredOn": "2025-09-25T14:30:00Z"
 }
 ```
 
-### Progress Monitoring
+**Response**: `HTTP 201 Created` with Task resource (status automatically changed to "in-progress")
+
+**Note**: The `imagingStudy` input is optional and provides additional context to optimize AI processing.
+
+### Step 3: Progress Monitoring
 
 **Option A - Polling**: `GET [base]/Task/{id}`
 
 **Option B - Real-time**: `GET [base]/Task/{id}/$stream` (Server-Sent Events)
 
 ```
-data: {"status": "in-progress", "businessStatus": "Running modality detection"}
-data: {"status": "in-progress", "businessStatus": "Running protocol classification"}  
-data: {"status": "completed", "output": {"valueReference": "DiagnosticReport/result-12345"}}
+data: {"status": "in-progress", "businessStatus": "Processing DICOM tag classification"}
+data: {"status": "completed", "output": [{"valueReference": {"reference": "Observation/modality-obs-12345"}}, {"valueReference": {"reference": "Observation/protocol-obs-12345"}}]}
 ```
 
-### Results Retrieval
+### Step 4: Results Retrieval
 
-When the Task status becomes `completed`, results are available via the Task output reference:
+When the Task status becomes `completed`, results are available via the Task output references:
 
-**Final Results**: `OrthovisionAIDiagnosticReport` containing:
-- **Modality Classification**: `OrthovisionAIModalityObservation`
-- **Protocol Classification**: `OrthovisionAIProtocolObservation`
+**Final Results**: `OrthovisionAIObservation` resources containing DICOM tag classifications
+
+**Example Modality Classification**: `GET [base]/Observation/modality-obs-12345`
 
 ```json
 {
-  "resourceType": "DiagnosticReport",
+  "resourceType": "Observation",
+  "id": "modality-obs-12345",
   "status": "final",
+  "category": [{
+    "coding": [{
+      "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+      "code": "imaging"
+    }]
+  }],
   "code": {
     "coding": [{
-      "system": "http://medoco.health/fhir/CodeSystem/orthovision-ai-procedures",
-      "code": "orthovision-ai-classification"
+      "system": "http://medoco.health/fhir/CodeSystem/dicom-tags",
+      "code": "modality"
     }]
   },
-  "conclusion": "External-camera Photography (XC) - Frontal Facial view identified with high confidence",
-  "result": [
-    {"reference": "Observation/modality-obs-12345"},
-    {"reference": "Observation/protocol-obs-12345"}
-  ]
+  "valueCodeableConcept": {
+    "coding": [{
+      "code": "XC",
+      "display": "External Photography"
+    }]
+  },
+  "extension": [{
+    "url": "http://medoco.health/fhir/StructureDefinition/confidence-score",
+    "valueDecimal": 0.97
+  }]
+}
+```
+
+**Example Protocol Classification**: `GET [base]/Observation/protocol-obs-12345`
+
+```json
+{
+  "resourceType": "Observation", 
+  "id": "protocol-obs-12345",
+  "status": "final",
+  "category": [{
+    "coding": [{
+      "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+      "code": "imaging"
+    }]
+  }],
+  "code": {
+    "coding": [{
+      "system": "http://medoco.health/fhir/CodeSystem/dicom-tags",
+      "code": "protocol"
+    }]
+  },
+  "valueString": "Frontal Facial view",
+  "extension": [{
+    "url": "http://medoco.health/fhir/StructureDefinition/confidence-score", 
+    "valueDecimal": 0.89
+  }]
 }
 ```
 
 ## Advanced Features
 
-### Optional Classification Scores
+### Confidence Scores
 
-Include `?includeClassificationScores=true` to receive complete AI model outputs with confidence scores for all possible classifications:
+All `OrthovisionAIObservation` resources include confidence scores via the `confidence-score` extension, providing transparency into AI model certainty:
 
 ```json
 {
@@ -124,21 +190,8 @@ Include `?includeClassificationScores=true` to receive complete AI model outputs
     "coding": [{"code": "XC", "display": "External Photography"}]
   },
   "extension": [{
-    "url": "http://medoco.health/fhir/StructureDefinition/orthovision-ai-classification-scores",
-    "extension": [
-      {
-        "extension": [
-          {"url": "code", "valueCodeableConcept": {"coding": [{"code": "XC"}]}},
-          {"url": "confidence", "valueDecimal": 0.97}
-        ]
-      },
-      {
-        "extension": [
-          {"url": "code", "valueCodeableConcept": {"coding": [{"code": "DX"}]}},
-          {"url": "confidence", "valueDecimal": 0.02}
-        ]
-      }
-    ]
+    "url": "http://medoco.health/fhir/StructureDefinition/confidence-score",
+    "valueDecimal": 0.97
   }]
 }
 ```
@@ -164,13 +217,67 @@ Failed requests return `OperationOutcome` with specific error codes:
 }
 ```
 
-## Performance
+### Optional Context with ImagingStudy
 
-- **Burst Handling**: Designed for intermittent high-volume scenarios (500+ images in short periods)
-- **Async Processing**: Prevents client timeouts during AI model inference
-- **Optional Context**: ImagingStudy context can skip modality detection for faster processing
+Tasks can include optional `ImagingStudy` references in the input to provide additional DICOM metadata context for more accurate classification. This is particularly useful when the Binary contains raw image data but additional DICOM study information is available:
 
-## Scalability
+```json
+{
+  "focus": {
+    "reference": "Binary/image-binary-12345"
+  },
+  "input": [
+    {
+      "type": {
+        "coding": [{
+          "system": "http://hl7.org/fhir/task-input-type",
+          "code": "imagingStudy"
+        }]
+      },
+      "valueReference": {
+        "reference": "ImagingStudy/study-12345"
+      }
+    },
+    {
+      "type": {
+        "coding": [{
+          "system": "http://hl7.org/fhir/task-input-type",
+          "code": "tagDICOM"
+        }]
+      },
+      "valueString": "modality"
+    }
+  ]
+}
+```
 
-- **Stateless Operations**: Each classification request is independent
-- **Load Balancing**: Compatible with horizontal scaling architectures
+This approach allows the AI service to use both the raw image data (from the Binary) and structured DICOM metadata (from the ImagingStudy) for improved classification accuracy.
+
+## Implementation Notes
+
+### FHIR Workflow Pattern
+
+This implementation follows the standard FHIR workflow pattern described in [FHIR R5 Section 12.12.8.1](https://hl7.org/fhir/R5/workflow.html#12.12.8.1):
+
+1. **Client POSTs Binary resource** - Image data is uploaded as a Binary resource
+2. **Client POSTs Task resource** - Creates an "actionable" request pointing to the Binary and specifying required DICOM tags
+3. **Server processes Task** - AI service processes the image and creates Observation resources 
+4. **Server updates Task** - Task status changes to completed with output references to Observations
+5. **Client monitors progress** - Via polling or Server-Sent Events subscription
+6. **Client retrieves results** - Reads the referenced Observation resources containing classifications
+
+### Resource Relationships
+
+- **Task.focus** → **Binary** (the image to be processed - must be created first)
+- **Task.input[imagingStudy]** → **ImagingStudy** (optional context for better classification)
+- **Task.input[tagDICOM]** → DICOM tag names to classify (as strings)
+- **Task.output** → **Observation** resources (classification results)
+- **Observation.code** → Which DICOM tag was classified
+- **Observation.value[x]** → The predicted/inferred value
+
+## Performance & Scalability
+
+- **RESTful Design**: Standard FHIR interactions enable caching, load balancing, and horizontal scaling
+- **Async Processing**: Task-based workflow prevents client timeouts during AI inference
+- **Resource Independence**: Each Binary, Task, and Observation can be processed independently
+- **Stateless Operations**: No server-side session state required between requests

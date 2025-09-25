@@ -32,8 +32,16 @@ Description: "This profile represents a task for the Orthovision AI service to i
 * input[imagingStudy].value[x] only Reference(ImagingStudy)
 * input[tagDICOM].value[x] only string
 
-* output 1..1 MS
-* output.value[x] only Reference(OrthovisionAIDiagnosticReport)
+* output 1..* MS
+* output.value[x] only Reference(OrthovisionAIObservation)
+
+* obeys task-input-output-match
+
+
+Invariant: task-input-output-match
+Description: "Number of output observations must match number of input DICOM tags"
+Expression: "input.where(type.coding.where(system='http://hl7.org/fhir/task-input-type' and code='tagDICOM')).count() = output.count()"
+Severity: #error
 
 
 Extension: PerformerDevice

@@ -43,40 +43,19 @@ Description: "Describes the capabilities of the Orthovision AI classification se
 * rest.resource[0].operation[0].definition = "http://medoco.health/fhir/OperationDefinition/StreamTaskUpdates"
 * rest.resource[0].operation[0].documentation = "Stream real-time Task updates via Server-Sent Events"
 
-// DiagnosticReport resource support
-* rest.resource[1].type = #DiagnosticReport
-* rest.resource[1].profile = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-diagnostic-report"
-* rest.resource[1].documentation = "DiagnosticReport resources contain the final AI classification results"
-* rest.resource[1].interaction[0].code = #read
-* rest.resource[1].interaction[0].documentation = "Read DiagnosticReport by ID to retrieve classification results"
-* rest.resource[1].interaction[1].code = #search-type
-* rest.resource[1].interaction[1].documentation = "Search DiagnosticReports by subject, date, or other parameters"
-
 // Observation resource support (both modality and protocol classifications)
-* rest.resource[2].type = #Observation
-* rest.resource[2].supportedProfile[0] = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-modality-observation"
-* rest.resource[2].supportedProfile[1] = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-protocol-observation"
-* rest.resource[2].documentation = "Observation resources containing AI-determined modality and protocol classifications"
-* rest.resource[2].interaction[0].code = #read
-* rest.resource[2].interaction[0].documentation = "Read Observation by ID"
-* rest.resource[2].interaction[1].code = #search-type
-* rest.resource[2].interaction[1].documentation = "Search Observations by category, code, or subject"
-
-// Bundle resource support (read-only for retrieving input bundles)
-* rest.resource[3].type = #Bundle
-* rest.resource[3].profile = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-bundle"
-* rest.resource[3].documentation = "Bundle resources used as input for classification operations"
-* rest.resource[3].interaction[0].code = #read
-* rest.resource[3].interaction[0].documentation = "Read Bundle by ID (typically for reference from Task.focus)"
+* rest.resource[1].type = #Observation
+* rest.resource[1].supportedProfile[0] = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-modality-observation"
+* rest.resource[1].supportedProfile[1] = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-protocol-observation"
+* rest.resource[1].documentation = "Observation resources containing AI-determined modality and protocol classifications"
+* rest.resource[1].interaction[0].code = #read
+* rest.resource[1].interaction[0].documentation = "Read Observation by ID"
+* rest.resource[1].interaction[1].code = #search-type
+* rest.resource[1].interaction[1].documentation = "Search Observations by category, code, or subject"
 
 // Binary resource support (read-only for retrieving image data)
-* rest.resource[4].type = #Binary
-* rest.resource[4].profile = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-binary"
-* rest.resource[4].documentation = "Binary resources containing image data"
-* rest.resource[4].interaction[0].code = #read
-* rest.resource[4].interaction[0].documentation = "Read Binary by ID to retrieve image content"
-
-// System-level operations
-* rest.operation[0].name = "classify-orthodontic"
-* rest.operation[0].definition = "http://medoco.health/fhir/OperationDefinition/ClassifyOrthodonticImage"
-* rest.operation[0].documentation = "Submit orthodontic images for AI classification"
+* rest.resource[2].type = #Binary
+* rest.resource[2].profile = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-binary"
+* rest.resource[2].documentation = "Binary resources containing image data"
+* rest.resource[2].interaction[0].code = #read
+* rest.resource[2].interaction[0].documentation = "Read Binary by ID to retrieve image content"
