@@ -40,7 +40,7 @@ Description: "This profile represents a task for the Orthovision AI service to i
 
 Invariant: task-input-output-match
 Description: "Number of output observations must match number of input DICOM tags"
-Expression: "input.where(type.coding.where(system='http://hl7.org/fhir/task-input-type' and code='tagDICOM')).count() = output.count()"
+Expression: "input.where(type.coding.exists(system='http://hl7.org/fhir/task-input-type' and code='tagDICOM')).count() = output.count()"
 Severity: #error
 
 

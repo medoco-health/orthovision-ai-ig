@@ -45,7 +45,6 @@ It can also provide confidence scores for each classification, helping users und
 - **Asynchronous Processing**: Non-blocking design using FHIR Task resources to track progress
 - **Real-time Updates**: Optional live updates via Server-Sent Events for monitoring
 - **Privacy-Focused**: Works on images alone—no patient data needed
-- **Transparent AI**: Optional confidence scores and full rankings for understanding AI decisions
 - **Standard FHIR**: Pure FHIR R5 for seamless integration
 - **Error Handling**: Clear error codes for reliable implementations
 

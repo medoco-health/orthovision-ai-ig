@@ -103,14 +103,9 @@ sequenceDiagram
 
 ### Step 3: Progress Monitoring
 
-**Option A - Polling**: `GET [base]/Task/{id}`
+**Simple - Polling**: `GET [base]/Task/{id}`
 
-**Option B - Real-time**: `GET [base]/Task/{id}/$stream` (Server-Sent Events)
-
-```
-data: {"status": "in-progress", "businessStatus": "Processing DICOM tag classification"}
-data: {"status": "completed", "output": [{"valueReference": {"reference": "Observation/modality-obs-12345"}}, {"valueReference": {"reference": "Observation/protocol-obs-12345"}}]}
-```
+Suggestion: Use exponential backoff for polling intervals.
 
 ### Step 4: Results Retrieval
 
@@ -253,31 +248,8 @@ Tasks can include optional `ImagingStudy` references in the input to provide add
 
 This approach allows the AI service to use both the raw image data (from the Binary) and structured DICOM metadata (from the ImagingStudy) for improved classification accuracy.
 
-## Implementation Notes
-
-### FHIR Workflow Pattern
-
-This implementation follows the standard FHIR workflow pattern described in [FHIR R5 Section 12.12.8.1](https://hl7.org/fhir/R5/workflow.html#12.12.8.1):
-
-1. **Client POSTs Binary resource** - Image data is uploaded as a Binary resource
-2. **Client POSTs Task resource** - Creates an "actionable" request pointing to the Binary and specifying required DICOM tags
-3. **Server processes Task** - AI service processes the image and creates Observation resources 
-4. **Server updates Task** - Task status changes to completed with output references to Observations
-5. **Client monitors progress** - Via polling or Server-Sent Events subscription
-6. **Client retrieves results** - Reads the referenced Observation resources containing classifications
-
-### Resource Relationships
-
-- **Task.focus** → **Binary** (the image to be processed - must be created first)
-- **Task.input[imagingStudy]** → **ImagingStudy** (optional context for better classification)
-- **Task.input[tagDICOM]** → DICOM tag names to classify (as strings)
-- **Task.output** → **Observation** resources (classification results)
-- **Observation.code** → Which DICOM tag was classified
-- **Observation.value[x]** → The predicted/inferred value
-
 ## Performance & Scalability
 
 - **RESTful Design**: Standard FHIR interactions enable caching, load balancing, and horizontal scaling
 - **Async Processing**: Task-based workflow prevents client timeouts during AI inference
 - **Resource Independence**: Each Binary, Task, and Observation can be processed independently
-- **Stateless Operations**: No server-side session state required between requests
