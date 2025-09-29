@@ -20,25 +20,53 @@ But there's another important need: standardizing AI for images *before* they're
 
 This Implementation Guide works *before* the traditional IHE workflow. Once images are converted to DICOM using this guide, they can then use AIW-I for further analysis.
 
-### Use Cases
+### Purpose and Use Cases
 
-This Implementation Guide shines in scenarios where images are captured or stored outside traditional medical imaging systems, enabling seamless integration into enterprise imaging workflows. By standardizing AI classification, it bridges the gap between everyday image formats and professional DICOM standards, promoting better data sharing and interoperability across healthcare.
+This Implementation Guide provides a standardized API specification for AI-powered image classification services—it defines the rules and workflows for how these services communicate, but doesn't perform the classification itself. Instead, it enables different AI implementations to classify images consistently and return results like DICOM metadata, modality types, and confidence scores in a uniform way. This promotes interoperability, allowing healthcare software to easily integrate and switch between AI services without custom coding.
 
-- **Live Image Capture**: Imagine using a standard digital camera (not specialized medical equipment) to take photos during a patient visit. This guide enables connected software — such as an imaging app or workstation — to automatically classify the images in real-time enabling it to convert the images to DICOM format for storage in a hospital's imaging system. No manual data entry needed — just plug-and-play integration facilitating the human confirmation step that ensures images are properly labeled and ready for clinical use or research.
-  
-- **Legacy Archive Conversion**: Healthcare facilities and research institutions often have large collections of old images, originating from film, which has been tediously saved in basic formats like JPEG or TIFF. This guide enables batch processing: a system scans the archive, sends them to an AI service to classifies each image, and adds the necessary DICOM details automatically. This transforms disorganized files into standardized, searchable medical records that can be shared across systems, improving research access and clinical workflows.
+#### Use Case 1: Orthodontic Live Photographic Capture
 
-### Purpose
+A dental or orthodontic practice uses a standard digital camera (like a DSLR) during a patient visit to capture images. Staff remove the SD card from the camera and insert it into a computer for importing into their DICOM archive. Importing software automatically rotates images, identifies the image type (e.g., frontal smiling view or intraoral maxillary), and prepares them for storage to a DICOM Node—without manual data entry.
 
-This guide helps healthcare systems add AI image classification to their image-taking processes using standard FHIR resources. The Orthovision AI service automatically sorts medical images by:
+To achieve this, the importing software sends the raw images to an AI service that classifies them in real-time and returns DICOM-ready metadata. The communication follows this Implementation Guide's specifications, enabling seamless integration for clinical use or research.
+
+This use case is not specific to the orthodontic field and also applies to any medical field that is acquiring medical images with a regular, non-medical acquisition device.
+
+#### Use Case 2a: Live Legacy Radiographic Film Capture 
+
+A research institution has a large collections of old radiographic acetate films. These images form a complete dataset which is valuable because obtained when regulation for radiographic image acquisition was much more relaxed and would therefore be impossible today to recreate. The need to preserve and convert this collection into a standard enterprise imaging format is urgent (acetate film decays over time) and the institution thus obtains funding.
+
+The researchers carefully scan the film radiograph making use of specific acquisition software which allows them to enter basic image specific information like subject ID, and actual acquisition date, or subject age. The software then instructs the researcher how to place the film radiograph into the scanner and initiate the scan. The software sends the image to one or more AI service for classification, rotation, etc and prompts the researcher for confirmation.
+
+The process uses this Implementation Guide's API to communicate with the AI service, retrieving classifications and metadata efficiently. 
+
+#### Use Case 2b: Legacy Radiographic Archive Conversion
+
+As Use Case 2a, but the research institution now already has a large collections of old radiographic images of the original acetate film, saved as JPEG or TIFF, instead of DICOM, because when funding was obtained, the benefits of having the collection in the DICOM format was not appreciated yet. The need to convert this collection into a standard enterprise imaging format is now necessary to facilitate large data AI based research and the institution thus obtains funding.
+
+The research institution thus develops a batch processing system that scans the archive, sends images to one or more  AI service for classification, rotation, etc and automatically generates the DICOM with the details from the AI services. This transforms disorganized files into standardized, searchable medical records, which can now be uploaded to the DICOM archive node.
+
+The process uses this Implementation Guide's API to communicate with the AI service, retrieving classifications and metadata efficiently. 
+
+Similar use cases exist also for the Use Case 1 scenario, where a practice may have a collection of medical photographs, which they now need to batch convert into DICOM.
+
+#### Example Classification 
+
+The following is a list of DICOM tags that could have been used in the above use cases:
 
 - **Imaging Modality**: What type of equipment took the image (camera, X-ray machine, CT scanner, etc.)
 - **Imaging Protocol**: The specific view or position (front face, side profile, inside mouth, etc.)
-- **PA and Lateral cephalograms**: Standard orthodontic X-rays showing front-to-back (PA) and side (Lateral) views of the skull for diagnosis and treatment planning.
+- **PA and Lateral Cephalograms**: Standard orthodontic X-rays showing front-to-back (PA) and side (Lateral) views of the skull for diagnosis and treatment planning.
 - **Image Orientation and Positioning**: Detecting rotation, flips, and anatomical alignment.
-- **Anatomical Region Identification**: Recognizing which body parts or structures are visible in the image. This makes it suitable for various medical imaging applications beyond orthodontics, including radiographs from different medical specialties where proper image orientation and anatomy identification are crucial for clinical workflows.
+- **Anatomical Region Identification**: Recognizing which body parts or structures are visible in the image.
 
-It can also provide confidence scores for each classification, helping users understand how certain the AI is about its decisions.
+AI services implementing this guide can also provide confidence scores for each classification, helping users understand how certain the AI is about its decisions. This makes the guide suitable for various medical imaging applications beyond orthodontics, where proper image details are crucial for clinical workflows.
+
+**Key Distinction**: The Implementation Guide is just the "blueprint" for the API—it specifies how results should be structured and exchanged, but the actual AI analysis (sorting images, calculating confidence) is done by separate implementing services. This separation allows vendors to build their own AI engines while ensuring they all "speak the same language" via FHIR.
+
+This shines in real-world scenarios where images are captured or stored outside traditional medical systems:
+
+  
 
 ### Key Features
 
