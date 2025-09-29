@@ -26,45 +26,44 @@ This Implementation Guide provides a standardized API specification for AI-power
 
 #### Use Case 1: Orthodontic Live Photographic Capture
 
-A dental or orthodontic practice uses a standard digital camera (like a DSLR) during a patient visit to capture images. Staff remove the SD card from the camera and insert it into a computer for importing into their DICOM archive. Importing software automatically rotates images, identifies the image type (e.g., frontal smiling view or intraoral maxillary), and prepares them for storage to a DICOM Node—without manual data entry.
+A dental or orthodontic practice captures patient photographs using a consumer or prosumer digital camera (for example, a DSLR). Staff import images from removable media into an importing workstation. The importing software automatically rotates images, classifies the view (for example, frontal smiling or intraoral maxillary), and prepares images for storage to a DICOM node, minimizing manual data entry.
 
-To achieve this, the importing software sends the raw images to an AI service that classifies them in real-time and returns DICOM-ready metadata. The communication follows this Implementation Guide's specifications, enabling seamless integration for clinical use or research.
+During import, the importing software sends images to an AI classification service (per this IG). The AI returns DICOM-ready metadata (modality, view/protocol, anatomy, orientation) and optional confidence scores. The importing software applies transformations or flags low-confidence items for review, then stores the resulting DICOM objects or associated metadata for clinical use or research.
 
-This use case is not specific to the orthodontic field and also applies to any medical field that is acquiring medical images with a regular, non-medical acquisition device.
+This pattern applies to any clinical area that uses non-medical acquisition devices and wants to convert images into enterprise imaging format.
 
-#### Use Case 2a: Live Legacy Radiographic Film Capture 
+#### Use Case 2a: Live Legacy Radiographic Film Capture
 
-A research institution has a large collections of old radiographic acetate films. These images form a complete dataset which is valuable because obtained when regulation for radiographic image acquisition was much more relaxed and would therefore be impossible today to recreate. The need to preserve and convert this collection into a standard enterprise imaging format is urgent (acetate film decays over time) and the institution thus obtains funding.
+A research institution needs to preserve and convert a collection of radiographic acetate films. These historic images are valuable for research because they were acquired under earlier protocols and capture patient cohorts or imaging conditions that are no longer available; acetate film also degrades over time, so timely digitization and preservation is urgent.
 
-The researchers carefully scan the film radiograph making use of specific acquisition software which allows them to enter basic image specific information like subject ID, and actual acquisition date, or subject age. The software then instructs the researcher how to place the film radiograph into the scanner and initiate the scan. The software sends the image to one or more AI service for classification, rotation, etc and prompts the researcher for confirmation.
+The films are scanned using a film acquisition workstation that captures image files and accepts basic contextual metadata (for example, subject identifier, acquisition date, subject age).
 
-The process uses this Implementation Guide's API to communicate with the AI service, retrieving classifications and metadata efficiently. 
+For each scanned image, the acquisition software sends the image and any available contextual metadata to an AI classification service (per this IG). The AI returns suggested metadata (modality, view, anatomy, orientation) and optional confidence scores. The software displays suggested classifications to the technician for confirmation or correction, and when confirmed generates DICOM objects with provenance and archives them to the DICOM node.
+
+If classification confidence is low or the technician corrects values, the corrected metadata is used before final DICOM generation.
 
 #### Use Case 2b: Legacy Radiographic Archive Conversion
 
-As Use Case 2a, but the research institution now already has a large collections of old radiographic images of the original acetate film, saved as JPEG or TIFF, instead of DICOM, because when funding was obtained, the benefits of having the collection in the DICOM format was not appreciated yet. The need to convert this collection into a standard enterprise imaging format is now necessary to facilitate large data AI based research and the institution thus obtains funding.
+A research institution holds a large collection of legacy radiographic images stored as JPEG or TIFF (digitized scans of original film). Converting this archive into a standardized enterprise format is important to preserve the dataset, enable modern AI analyses, and make the images discoverable and reusable for research or clinical secondary-use.
 
-The research institution thus develops a batch processing system that scans the archive, sends images to one or more  AI service for classification, rotation, etc and automatically generates the DICOM with the details from the AI services. This transforms disorganized files into standardized, searchable medical records, which can now be uploaded to the DICOM archive node.
+The batch system enumerates files, groups them for processing, and sends images to one or more AI classification services using the API defined in this IG. The AI returns classifications and optional confidence scores. The batch process maps AI outputs to DICOM metadata, queues low-confidence or ambiguous items for manual review, generates DICOM objects (or sidecar metadata), and uploads the results to the target DICOM archive.
 
-The process uses this Implementation Guide's API to communicate with the AI service, retrieving classifications and metadata efficiently. 
-
-Similar use cases exist also for the Use Case 1 scenario, where a practice may have a collection of medical photographs, which they now need to batch convert into DICOM.
+This same batch pattern also applies to clinical sites that need to bulk-convert photographic collections into DICOM.
 
 #### Example Classification 
 
 The following is a list of DICOM tags that could have been used in the above use cases:
 
-- **Imaging Modality**: What type of equipment took the image (camera, X-ray machine, CT scanner, etc.)
-- **Imaging Protocol**: The specific view or position (front face, side profile, inside mouth, etc.)
-- **Image Orientation and Positioning**: Detecting rotation, flips, and anatomical alignment.
-- **Anatomical Region Identification**: Recognizing which body parts or structures are visible in the image.
+TODO: Check that these dicom tag numbers are correct: specifically for the 2nd bullet for the specific view.
+
+- **(0008,0060) Modality (Imaging Modality)**: What type of equipment took the image (camera, X-ray machine, CT scanner, etc.)
+- **(0018,1030) ProtocolName / (0008,103E) SeriesDescription (Imaging Protocol)**: The specific view or position (front face, side profile, inside mouth, etc.)
+- **(0020,0037) Image Orientation (Patient) / (0020,0032) Image Position (Patient) (Image Orientation and Positioning)**: Detecting rotation, flips, and anatomical alignment.
+- **(0018,0015) Body Part Examined / (0008,2218) Anatomic Region Sequence (Anatomical Region Identification)**: Recognizing which body parts or structures are visible in the image.
 
 
 **Key Distinction**: The Implementation Guide is just the "blueprint" for the API—it specifies how results should be structured and exchanged, but the actual AI analysis (sorting images, calculating confidence) is done by separate implementing services. This separation allows vendors to build their own AI engines while ensuring they all "speak the same language" via FHIR.
 
-This shines in real-world scenarios where images are captured or stored outside traditional medical systems:
-
-  
 
 ### Key Features
 
