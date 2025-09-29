@@ -56,11 +56,9 @@ The following is a list of DICOM tags that could have been used in the above use
 
 - **Imaging Modality**: What type of equipment took the image (camera, X-ray machine, CT scanner, etc.)
 - **Imaging Protocol**: The specific view or position (front face, side profile, inside mouth, etc.)
-- **PA and Lateral Cephalograms**: Standard orthodontic X-rays showing front-to-back (PA) and side (Lateral) views of the skull for diagnosis and treatment planning.
 - **Image Orientation and Positioning**: Detecting rotation, flips, and anatomical alignment.
 - **Anatomical Region Identification**: Recognizing which body parts or structures are visible in the image.
 
-AI services implementing this guide can also provide confidence scores for each classification, helping users understand how certain the AI is about its decisions. This makes the guide suitable for various medical imaging applications beyond orthodontics, where proper image details are crucial for clinical workflows.
 
 **Key Distinction**: The Implementation Guide is just the "blueprint" for the API—it specifies how results should be structured and exchanged, but the actual AI analysis (sorting images, calculating confidence) is done by separate implementing services. This separation allows vendors to build their own AI engines while ensuring they all "speak the same language" via FHIR.
 
@@ -70,10 +68,13 @@ This shines in real-world scenarios where images are captured or stored outside 
 
 ### Key Features
 
+- **Any DICOM attribute**: While this IG may explicitly mention a limited set, any DICOM attributes are supported.
+- **Confidence scores**: Confidence scores for each classification, help users understand how certain the AI is about its decisions. This makes the guide suitable for various medical imaging applications.
+- **AI Device**: Full identification of brand, make, model and version of the AI system which provided the answer.
 - **Asynchronous Processing**: Non-blocking design using FHIR Task resources to track progress
 - **Real-time Updates**: Optional live updates via Server-Sent Events for monitoring
 - **Privacy-Focused**: Works on images alone—no patient data needed
-- **Standard FHIR**: Pure FHIR R5 for seamless integration
+- **Standard FHIR**: Pure FHIR for seamless integration
 - **Error Handling**: Clear error codes for reliable implementations
 
 # Getting Started
