@@ -1,7 +1,7 @@
 Profile: OrthovisionAIObservation
 Parent: Observation
 Id: orthovision-ai-observation
-Title: "Observation: DICOM Tag Classification"
+Title: "OrthovisionAI Observation"
 Description: "This profile represents an observation capturing the AI-predicted value for a specific DICOM tag."
 * ^url = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-observation"
 * ^experimental = false
