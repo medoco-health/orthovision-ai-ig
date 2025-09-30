@@ -5,6 +5,12 @@ sequenceDiagram
     participant API as Orthovision API
     participant AI as AI Service
 
+    opt Capability Discovery
+        Client->>API: GET /metadata
+        API->>Client: CapabilityStatement with supported DICOM tags
+        Note over Client: Check supported-dicom-tags extension
+    end
+
     Client->>API: POST /Bundle (OrthovisionAIBundle)
     Note over Client,API: Bundle contains: Binary + Task + optional ImagingStudy
     
@@ -32,6 +38,40 @@ sequenceDiagram
 ```
 
 ## Bundle-Based Workflow
+
+### Step 0: Capability Discovery (Optional)
+
+**Endpoint**: `GET [base]/metadata`
+
+Before submitting classification requests, clients can discover which DICOM tags the implementation supports by checking the CapabilityStatement:
+
+**Response**: CapabilityStatement with `supported-dicom-tags` extension
+
+```json
+{
+  "resourceType": "CapabilityStatement",
+  "id": "orthovision-ai-server",
+  "extension": [
+    {
+      "url": "http://medoco.health/fhir/StructureDefinition/supported-dicom-tags",
+      "valueString": "modality"
+    },
+    {
+      "url": "http://medoco.health/fhir/StructureDefinition/supported-dicom-tags", 
+      "valueString": "protocol"
+    },
+    {
+      "url": "http://medoco.health/fhir/StructureDefinition/supported-dicom-tags",
+      "valueString": "body-part"
+    }
+  ],
+  // ... rest of capability statement
+}
+```
+
+**Client Usage**: Extract the supported DICOM tag names from the extensions and only request classification for those tags in the Task inputs.
+
+**Note**: If a client requests classification for an unsupported DICOM tag, the server will return an OperationOutcome with appropriate error details during bundle processing.
 
 ### Step 1: Submit Bundle
 

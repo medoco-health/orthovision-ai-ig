@@ -54,10 +54,8 @@ This same batch pattern also applies to clinical sites that need to bulk-convert
 
 The following is a list of DICOM tags that could have been used in the above use cases:
 
-TODO: Check that these dicom tag numbers are correct: specifically for the 2nd bullet for the specific view.
-
 - **(0008,0060) Modality (Imaging Modality)**: What type of equipment took the image (camera, X-ray machine, CT scanner, etc.)
-- **(0018,1030) ProtocolName / (0008,103E) SeriesDescription (Imaging Protocol)**: The specific view or position (front face, side profile, inside mouth, etc.)
+- **(0054,0220) View Code Sequence (Imaging View/Position)**: The specific view or position (front face, side profile, inside mouth, etc.)
 - **(0020,0037) Image Orientation (Patient) / (0020,0032) Image Position (Patient) (Image Orientation and Positioning)**: Detecting rotation, flips, and anatomical alignment.
 - **(0018,0015) Body Part Examined / (0008,2218) Anatomic Region Sequence (Anatomical Region Identification)**: Recognizing which body parts or structures are visible in the image.
 
@@ -68,6 +66,7 @@ TODO: Check that these dicom tag numbers are correct: specifically for the 2nd b
 ### Key Features
 
 - **Any DICOM attribute**: While this IG may explicitly mention a limited set, any DICOM attributes are supported.
+- **Capability Discovery**: Implementations declare which DICOM tags they support via CapabilityStatement extensions—check `/metadata` to see what's available before submitting requests.
 - **Confidence scores**: Confidence scores for each classification, help users understand how certain the AI is about its decisions. This makes the guide suitable for various medical imaging applications.
 - **AI Device**: Full identification of brand, make, model and version of the AI system which provided the answer.
 - **Asynchronous Processing**: Non-blocking design using FHIR Task resources to track progress
