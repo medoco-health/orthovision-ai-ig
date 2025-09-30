@@ -2,6 +2,7 @@ Profile: OrthovisionAITask
 Parent: Task
 Id: orthovision-ai-task
 Title: "Orthovision AI Task"
+Description: "This profile represents a task for the Orthovision AI service to infer proper DICOM tags."
 * ^url = "http://medoco.health/fhir/StructureDefinition/orthovision-ai-task"
 * ^experimental = false
 
