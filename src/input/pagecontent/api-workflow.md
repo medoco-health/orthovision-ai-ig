@@ -359,7 +359,7 @@ Once a Task reaches a final state (`completed`, `failed`, or `cancelled`), the a
   "id": "task-12345",
   "status": "completed",
   "focus": {
-    "reference": "Binary/binary-12345"  // May return 410 Gone after cleanup
+    "reference": "Binary/binary-12345"
   },
   "output": [
     {
@@ -370,7 +370,7 @@ Once a Task reaches a final state (`completed`, `failed`, or `cancelled`), the a
         }]
       },
       "valueReference": {
-        "reference": "Observation/modality-obs-12345"  // Remains accessible
+        "reference": "Observation/modality-obs-12345"
       }
     }
   ]
