@@ -1,9 +1,11 @@
 ### Scope and Usage
 
-The OrthovisionAIBinary profile addresses the specific need for AI-powered image classification in medical workflows. Typically, this profile is used for handling content such as:
+The OrthovisionAIBinary profile addresses the specific need for AI-powered DICOM tag classification in medical workflows. Typically, this profile is used for handling content such as:
 
-* Orthodontic photographs (frontal, profile, smile views)
-* Intraoral radiographs and photographs
-* PA and Lateral cephalograms
+* Orthodontic photographs (frontal, profile, smile views) taken with DSLR cameras (JPEG, PNG, JPEG 2000 formats)
+* Legacy radiographic images digitized from acetate films and stored as TIFF files for archive conversion
+* Audio recordings from medical devices (e.g., heart sounds, respiratory sounds) in WAV or MP3 formats that require DICOM encapsulation
+* Scanned medical documents and imaging reports stored as TIFF files needing proper DICOM classification
+* Historical medical imaging datasets in various formats (JPEG, TIFF, PNG) preserved for research purposes
 
-The OrthovisionAIBinary resource ensures that medical images are properly formatted and validated before submission to AI classification services. Unlike general Binary resources, this profile restricts content types to medically relevant formats (JPEG, PNG, JPEG 2000, DICOM) and enforces non-empty data requirements essential for reliable AI processing.
+Unlike general Binary resources, this profile enforces non-empty data requirements essential for reliable AI processing.
