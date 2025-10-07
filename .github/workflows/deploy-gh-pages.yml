@@ -61,7 +61,14 @@ jobs:
         working-directory: src
         run: |
           chmod +x _updatePublisher.sh
-          echo -e "Y\nn\n" | ./_updatePublisher.sh
+          # Force yes to update, no to snapshot
+          printf "Y\nn\n" | ./_updatePublisher.sh || true
+          # Verify publisher was downloaded
+          if [ ! -f "input-cache/publisher.jar" ]; then
+            echo "Failed to download publisher, trying direct download..."
+            mkdir -p input-cache
+            curl -L https://github.com/HL7/fhir-ig-publisher/releases/latest/download/publisher.jar -o input-cache/publisher.jar
+          fi
 
       - name: Build FHIR IG
         working-directory: src
