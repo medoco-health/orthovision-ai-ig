@@ -9,7 +9,7 @@ name: Orthovision AI IG
 title: Orthovision AI FHIR Implementation Guide
 description: A FHIR Implementation Guide for medical photograph categorization
 status: active
-version: 0.1.0
+version: 0.2.0
 fhirVersion: 5.0.0 # https://www.hl7.org/fhir/valueset-FHIR-version.html
 copyrightYear: 2025+
 releaseLabel: ci-build
