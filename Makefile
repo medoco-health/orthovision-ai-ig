@@ -8,6 +8,9 @@ help:
 	@echo "  install          - Install dependencies"
 	@echo "  update-publisher - Update IG Publisher"
 	@echo "  serve            - Serve locally for development"
+	@echo "  bump-major       - Bump major version (1.0.0 → 2.0.0)"
+	@echo "  bump-minor       - Bump minor version (1.0.0 → 1.1.0)"
+	@echo "  bump-patch       - Bump patch version (1.0.0 → 1.0.1)"
 
 build:
 	cd src && ./_genonce.sh
@@ -26,3 +29,16 @@ update-publisher:
 
 serve:
 	cd src/output/ && python3 -m http.server 8000
+
+# Version bumping targets
+bump-major:
+	@chmod +x scripts/bump-version.sh
+	@./scripts/bump-version.sh major
+
+bump-minor:
+	@chmod +x scripts/bump-version.sh
+	@./scripts/bump-version.sh minor
+
+bump-patch:
+	@chmod +x scripts/bump-version.sh
+	@./scripts/bump-version.sh patch
