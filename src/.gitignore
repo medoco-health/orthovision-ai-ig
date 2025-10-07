@@ -1,0 +1,14 @@
+.DS_Store
+Thumbs.db
+/fsh-generated
+/input-cache
+/output
+/temp
+/template
+
+# FHIR IG build artifacts - generated content that should not be committed
+output/
+qa/
+temp/
+fsh-generated/
+input-cache/txcache/
