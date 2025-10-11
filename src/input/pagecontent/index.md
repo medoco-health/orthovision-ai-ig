@@ -67,7 +67,7 @@ The following is a list of DICOM tags that could have been used in the above use
 
 - **Any DICOM attribute**: While this IG may explicitly mention a limited set, any DICOM attributes are supported.
 - **Capability Discovery**: Implementations declare which DICOM tags they support via CapabilityStatement extensions—check `/metadata` to see what's available before submitting requests.
-- **Confidence scores**: Confidence scores for each classification, help users understand how certain the AI is about its decisions. This makes the guide suitable for various medical imaging applications.
+- **Confidence scores**: Confidence scores for each classified DICOM attribute, help users understand how certain the AI is about its decisions. This makes the guide suitable for various medical imaging applications.
 - **AI Device**: Full identification of brand, make, model and version of the AI system which provided the answer.
 - **Asynchronous Processing**: Non-blocking design using FHIR Task resources to track progress
 - **Real-time Updates**: Optional live updates via Server-Sent Events for monitoring
