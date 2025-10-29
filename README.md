@@ -8,6 +8,8 @@
 
 A FHIR R5 Implementation Guide for AI-powered medical image classification. This IG enables standardized integration of AI services that classify medical images to facilitate DICOM conversion and improve healthcare imaging workflows.
 
+**[Published Version](https://medoco-health.github.io/orthovision-ai-ig/index.html)**
+
 ## Problem Statement
 
 Many healthcare systems store medical images in basic formats (JPEG, TIFF) rather than the standardized DICOM format. This creates barriers to sharing, archiving, and integrating images across different healthcare systems. Converting images to DICOM requires adding crucial metadata like imaging modality, anatomical region, and orientation—information that AI can automatically identify.
