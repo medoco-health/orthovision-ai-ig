@@ -6,6 +6,8 @@
 
 # Orthovision AI Implementation Guide
 
+**Authors:** Alessandro Belotti, Toni Magni — [medoco HEALTH](https://medoco.health), Trento, Italy
+
 A FHIR R5 Implementation Guide for AI-powered medical image classification. This IG enables standardized integration of AI services that classify medical images to facilitate DICOM conversion and improve healthcare imaging workflows.
 
 **[Published Version](https://medoco-health.github.io/orthovision-ai-ig/index.html)**

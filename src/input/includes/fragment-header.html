@@ -171,4 +171,42 @@ body, #segment-header, #segment-footer {
 #stripe {
   display: none;
 }
+
+/* Header logo layout */
+#ig-status {
+  display: flex !important;
+  align-items: center !important;
+  gap: 20px !important;
+  flex-direction: column !important;
+}
+
+#segment-footer > .container .inner-wrapper > p {
+  margin-top: 10px !important;
+  text-align: center !important;
+}
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var status = document.getElementById('ig-status');
+  if (!status) return;
+
+  /* Wrap existing text content */
+  var textDiv = document.createElement('div');
+  while (status.firstChild) {
+    textDiv.appendChild(status.firstChild);
+  }
+
+  /* Build logo link with inline dark SVG */
+  var logoLink = document.createElement('a');
+  logoLink.href = 'https://medoco.health';
+  logoLink.target = '_blank';
+  logoLink.rel = 'noopener';
+  logoLink.title = 'medoco HEALTH';
+  logoLink.style.cssText = 'display:inline-block;line-height:0;flex-shrink:0;';
+  logoLink.innerHTML = '<img src="logo-dark.svg" alt="medoco HEALTH" height="36">';
+
+  status.insertBefore(logoLink, status.firstChild);
+  status.appendChild(textDiv);
+});
+</script>
